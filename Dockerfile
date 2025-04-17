@@ -26,12 +26,17 @@ ARG BUILD_HASH
 
 WORKDIR /app
 
+# 复制必要的文件
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# 确保所有文件被正确复制
 COPY . .
-ENV APP_BUILD_HASH=${BUILD_HASH}
-RUN npm run build
+
+# 添加调试日志
+RUN echo "Running build script..." && \
+    npm run build && \
+    echo "Build completed."
 
 ######## WebUI backend ########
 FROM python:3.11-slim-bookworm AS base
