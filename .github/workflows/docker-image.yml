@@ -1,0 +1,39 @@
+name: Build and Push Docker Image on Tag
+
+# 触发条件：当创建新的 Git Tag 时触发工作流
+on:
+  push:
+    tags:
+      - 'release-*'  # 只匹配以 "release-" 开头的标签
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码库
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. 登录阿里云镜像仓库
+      - name: Login to Aliyun Docker Registry
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USERNAME }} --password-stdin registry.cn-hangzhou.aliyuncs.com
+
+      # 3. 构建 Docker 镜像
+      - name: Build Docker image
+        run: |
+          # 获取当前 Tag 名称作为镜像版本号
+          TAG_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+          IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/enjoycloud/open_web_ui_openbmb:$TAG_NAME
+          echo "Building Docker image: $IMAGE_NAME"
+          docker build . --file Dockerfile --tag $IMAGE_NAME
+
+      # 4. 推送 Docker 镜像到阿里云镜像仓库
+      - name: Push Docker image
+        run: |
+          # 获取当前 Tag 名称作为镜像版本号
+          TAG_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+          IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/enjoycloud/open_web_ui_openbmb:$TAG_NAME
+          echo "Pushing Docker image: $IMAGE_NAME"
+          docker push $IMAGE_NAME
