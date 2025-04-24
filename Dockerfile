@@ -28,7 +28,7 @@ WORKDIR /app
 
 # 复制必要的文件
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm config set registry https://registry.npmmirror.com && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000 && npm ci
 
 # 确保所有文件被正确复制
 COPY . .
