@@ -34,7 +34,8 @@ RUN npm config set registry https://registry.npmmirror.com && npm config set fet
 COPY . .
 
 # 添加调试日志
-RUN echo "Running build script..." && \
+RUN export NODE_OPTIONS="--max-old-space-size=4096" && \
+    echo "Running build script..." && \
     npm run build && \
     echo "Build completed."
 
