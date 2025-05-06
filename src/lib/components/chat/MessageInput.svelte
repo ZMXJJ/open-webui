@@ -1266,8 +1266,8 @@
 											<div class=" flex items-center">
 												<Tooltip content={$i18n.t('Call')}>
 													<button
-														class=" bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full p-1.5 self-center"
-														type="button"
+    													class=" bg-[#647fff] text-white border border-[#647fff] rounded-full group-hover:visible invisible transition"
+    													type="button"
 														on:click={async () => {
 															if (selectedModels.length > 1) {
 																toast.error($i18n.t('Select only one model to call'));
@@ -1325,6 +1325,7 @@
 												</Tooltip>
 											</div>
 										{:else}
+											<!-- 发送按钮 -->
 											<div class=" flex items-center">
 												<Tooltip content={$i18n.t('Send message')}>
 													<button
