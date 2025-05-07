@@ -196,7 +196,7 @@
 		{#if $showControls}
 			<PaneResizer class="relative flex w-2 items-center justify-center bg-background group">
 				<div class="z-10 flex h-7 w-5 items-center justify-center rounded-xs">
-					<EllipsisVertical className="size-4 invisible group-hover:visible" />
+					<EllipsisVertical className="size-4 invisible group-hover:visible text-[#647fff]" />
 				</div>
 			</PaneResizer>
 		{/if}
